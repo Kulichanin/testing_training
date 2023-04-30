@@ -14,6 +14,19 @@ print('input pass')
 author = driver.find_element(By.XPATH, '//input[@id="login-button"]')
 author.click()
 
+#Scrool for javascripts.
+#sleep(3)
+#driver.execute_script("window.scrollTo(0, 500)")
+#sleep(3)
+
+#Scrool for move in python cod.
+action = webdriver.ActionChains(driver)
+red_t_shirt = driver.find_element(
+        By.XPATH, 
+        '//*[@id="inventory_container"]/div/div[6]/div[2]'
+        )
+action.move_to_element(red_t_shirt).perform()
+
 now_date = datetime.now().strftime("%Y_%m_%d_%H_%M_%S")
 name_screen = 'screenshot_' + now_date + '.png'
 driver.save_screenshot('./screen/' + name_screen)
