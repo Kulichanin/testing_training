@@ -11,7 +11,6 @@ option.add_experimental_option('detach', True)
 driver = webdriver.Chrome(executable_path='./driver/chromedriver', options=option)
 
 
-driver = webdriver.Chrome(executable_path='./driver/chromedriver')
 driver.get('https://www.saucedemo.com/')
 username = driver.find_element(By.XPATH, '//input[@data-test="username"]')
 username.send_keys('standard_user')
