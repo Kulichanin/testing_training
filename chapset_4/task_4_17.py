@@ -1,5 +1,6 @@
 from time import sleep
 from selenium import webdriver
+from datetime import datetime
 
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
@@ -94,11 +95,20 @@ assert value_price_cart_product_1 == value_price_product_1
 print('Price cart product 1 Good!')
 assert value_price_cart_product_2 == value_price_product_2
 print('Price cart product 2 Good!')
+
 """Check item total"""
-item_total = driver.find_elements(By.XPATH, '//*[@id="checkout_summary_container"]/div/div[2]/div[6]')
-tax = driver.find_elements(By.XPATH, '//*[@id="checkout_summary_container"]/div/div[2]/div[7]')
+item_total = driver.find_element(
+        By.XPATH, 
+        '//*[@id="checkout_summary_container"]/div/div[2]/div[6]').text
+item_total_price = item_total.split('$')
+assert float(value_price_cart_product_1[1:]) + float(value_price_cart_product_2[1:]) == float(item_total_price[1])
+print('Test sum nice!')
 
-print(item_total, tax)
-
-#sleep(3)
-#driver.close()
+"""final test"""
+driver.find_element(By.XPATH, '//*[@id="finish"]').click()
+sleep(1)
+now_date = datetime.now().strftime("%Y_%m_%d_%H_%M_%S")
+name_screen = 'screenshot_' + now_date + '.png'
+driver.save_screenshot('./screen/' + name_screen)
+print('Test end!')
+driver.close()
