@@ -28,20 +28,18 @@ print('Authorization successful')
 """ INFO product first! """
 product_1 = driver.find_element(By.XPATH, '//*[@id="item_5_title_link"]/div')
 value_product_1 = product_1.text
-
 price_product_1 = driver.find_element(
         By.XPATH, 
         '//*[@id="inventory_container"]/div/div[4]/div[2]/div[2]/div'
         )
 value_price_product_1 = price_product_1.text
-
 print('name product: ' + value_product_1, 'price product: ' + value_price_product_1)
 
-add_cart = driver.find_element(
+#Adding product to the cart
+driver.find_element(
         By.XPATH, 
         '//*[@id="add-to-cart-sauce-labs-fleece-jacket"]'
         ).click()
-
 
 """ INFO product second! """
 product_2 = driver.find_element(
@@ -49,24 +47,34 @@ product_2 = driver.find_element(
         '//*[@id="item_3_title_link"]/div'
         )
 value_product_2 = product_2.text
-
 price_product_2 = driver.find_element(
         By.XPATH, 
         '//*[@id="inventory_container"]/div/div[6]/div[2]/div[2]/div'
         )
 value_price_product_2 = price_product_2.text
-
 print('name product: ' + value_product_2, 'price product: ' + value_price_product_2)
 
-# cooment add cart 
+#Adding products to the cart
 driver.find_element(
         By.XPATH, 
         '//*[@id="add-to-cart-test.allthethings()-t-shirt-(red)"]').click()
-# comment basket
+
+#Go to the shopping cart
 driver.find_element(By.XPATH, '//*[@id="shopping_cart_container"]/a').click()
 sleep(1)
 
-#comment
+"""Info product in your cart"""
+value_your_cart_product_1 = driver.find_element(By.XPATH, '//*[@id="item_5_title_link"]/div').text
+value_your_cart_product_2 = driver.find_element(By.XPATH, '//*[@id="item_3_title_link"]/div').text
+value_price_your_cart_product_1 = driver.find_element(
+        By.XPATH, 
+        '//*[@id="cart_contents_container"]/div/div[1]/div[3]/div[2]/div[2]/div').text
+value_price_your_cart_product_2 = driver.find_element(
+        By.XPATH, 
+        '//*[@id="cart_contents_container"]/div/div[1]/div[4]/div[2]/div[2]/div').text
+print(value_your_cart_product_1, value_your_cart_product_2, value_price_your_cart_product_1, value_price_your_cart_product_2)
+
+#Go to the checkout and input information user
 driver.find_element(By.XPATH, '//*[@id="checkout"]').click()
 """input information user """
 driver.find_element(By.XPATH, '//*[@id="first-name"]').send_keys('Ivan')
@@ -74,16 +82,11 @@ driver.find_element(By.XPATH, '//*[@id="last-name"]').send_keys('Belekov')
 driver.find_element(By.XPATH, '//*[@id="postal-code"]').send_keys('123456')
 driver.find_element(By.XPATH, '//*[@id="continue"]').click()
 
-"""check info product """
+"""check info product in Checkout: Overview"""
 value_cart_product_1 = driver.find_element(By.XPATH, '//*[@id="item_5_title_link"]/div').text
 value_cart_product_2 = driver.find_element(By.XPATH, '//*[@id="item_3_title_link"]/div').text
 
-assert value_product_1 == value_cart_product_1
-print('Info cart product 1 Good!')
-assert value_product_2 == value_cart_product_2
-print('Info cart product 2 Good!')
-
-"""check price product """
+"""check price product in Checkout: Overview"""
 value_price_cart_product_1 = driver.find_element(
         By.XPATH, 
         '//*[@id="checkout_summary_container"]/div/div[1]/div[3]/div[2]/div[2]/div').text
@@ -91,18 +94,24 @@ value_price_cart_product_2 = driver.find_element(
         By.XPATH, 
         '//*[@id="checkout_summary_container"]/div/div[1]/div[4]/div[2]/div[2]/div').text
 
-assert value_price_cart_product_1 == value_price_product_1
+"""checking the name and value of the product at all stages of testing"""
+assert value_product_1 == value_your_cart_product_1 == value_cart_product_1
+print('Info cart product 1 Good!')
+assert value_product_2 == value_your_cart_product_2 == value_cart_product_2
+print('Info cart product 2 Good!')
+
+assert value_price_cart_product_1 == value_price_your_cart_product_1 == value_price_product_1
 print('Price cart product 1 Good!')
-assert value_price_cart_product_2 == value_price_product_2
+assert value_price_cart_product_2 == value_price_your_cart_product_2 == value_price_product_2
 print('Price cart product 2 Good!')
 
-"""Check item total"""
+"""checking the total amount of goods"""
 item_total = driver.find_element(
         By.XPATH, 
         '//*[@id="checkout_summary_container"]/div/div[2]/div[6]').text
 item_total_price = item_total.split('$')
 assert float(value_price_cart_product_1[1:]) + float(value_price_cart_product_2[1:]) == float(item_total_price[1])
-print('Test sum nice!')
+print('Test sum successful!')
 
 """final test"""
 driver.find_element(By.XPATH, '//*[@id="finish"]').click()
