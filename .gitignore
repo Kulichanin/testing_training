@@ -1,2 +1,4 @@
 .venv
 chapset_4/driver
+chapset_4/screen
+geckodriver.log
