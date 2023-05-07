@@ -7,7 +7,6 @@ from datetime import datetime
 
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
-
 option = Options()
 option.add_experimental_option('detach', True)
 
