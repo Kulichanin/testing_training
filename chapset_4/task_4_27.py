@@ -35,12 +35,15 @@ def main(number:int) -> None:
    
     # Adding the selected product to the cart
     product_name = driver.find_element(By.XPATH,
-                                       f'//*[@id="inventory_container"]/div/div[{number}]/div[2]/div/a').text
+                                       f'//*[@id="inventory_container"]/'
+                                       f'div/div[{number}]/div[2]/div/a').text
     product_price = driver.find_element(By.XPATH,
-                                        f'//*[@id="inventory_container"]/div/div[{number}]/div[2]/div[2]/div').text
+                                        f'//*[@id="inventory_container"]/div/'
+                                        f'div[{number}]/div[2]/div[2]/div').text
     print(f'Вы выбрали товар: {product_name}. Со стоимостью: {product_price}')
     driver.find_element(By.XPATH,
-                        f'//*[@id="inventory_container"]/div/div[{number}]/div[2]/div[2]/button').click()
+                        f'//*[@id="inventory_container"]/div/div[{number}]/'
+                        f'div[2]/div[2]/button').click()
     print('Товар успешно добавлен в корзину!')
     sleep(1)
     print(screenshot())
@@ -50,8 +53,10 @@ def main(number:int) -> None:
                         '//*[@class="shopping_cart_container"]/a').click()
 
     # Save info product in your cart
-    product_name_in_cart = driver.find_element(By.XPATH, '//*[@class="inventory_item_name"]').text
-    product_price_in_cart = driver.find_element(By.XPATH, '//*[@class="inventory_item_price"]').text
+    product_name_in_cart = driver.find_element(By.XPATH, 
+                                               '//*[@class="inventory_item_name"]').text
+    product_price_in_cart = driver.find_element(By.XPATH, 
+                                                '//*[@class="inventory_item_price"]').text
 
     print(f'Информация о продукте в корзине: '
           f'Имя товара: {product_name_in_cart}. '
@@ -112,11 +117,16 @@ if __name__ == "__main__":
     print('Идентификатор имени товара 4 - Sauce Labs Fleece Jacket') 
     print('Идентификатор имени товара 5 - Sauce Labs Onesie') 
     print('Идентификатор имени товара 6 - Test.allTheThings() T-Shirt (Red)')
-    number = int(input('Номер товара:'))
     
-    option = Options()
-    option.add_experimental_option('detach', True) 
-    driver = webdriver.Chrome(executable_path='./driver/chromedriver', 
-                              options=option)
 
-    main(number)
+    try:
+        number = int(input('Номер товара:'))
+        if number not in range(1,6):
+            raise
+        option = Options()
+        option.add_experimental_option('detach', True) 
+        driver = webdriver.Chrome(executable_path='./driver/chromedriver', 
+                                  options=option)
+        main(number)
+    except (ValueError, RuntimeError):
+        print('Введите число от 1 до 6')
