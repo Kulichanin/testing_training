@@ -5,11 +5,12 @@ Create smoke testing in OOP
 from time import sleep
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.service import Service as ChromeService
 from webdriver_manager.chrome import ChromeDriverManager
+
+from login_page import Login_page 
 
 class Test_1():
 
@@ -24,16 +25,11 @@ class Test_1():
         driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()))
         driver.get('https://www.saucedemo.com/')
         sleep(3)
-        
-        # Authorication in site
-        login = WebDriverWait(driver, 30).until(EC.element_to_be_clickable((By.XPATH, '//input[@data-test="username"]')))
-        login.send_keys('standard_user')
-        password = WebDriverWait(driver, 30).until(EC.element_to_be_clickable((By.XPATH,  '//input[@id="password"]')))
-        password.send_keys('secret_sauce')
-        password.send_keys(Keys.ENTER)
-        
-        print('Авторизация успешна.')
 
+        # Authorication in site
+        login = Login_page(driver)
+        login.authorization('standard_user', 'secret_sauces')
+        
         # Adding the selected product to the cart
         product_name = (WebDriverWait(driver, 30).until(EC.element_to_be_clickable((By.XPATH,
                                            f'//*[@id="inventory_container"]/div/div[{self.number}]/div[2]/div/a')))).text
