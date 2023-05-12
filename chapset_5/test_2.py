@@ -1,6 +1,6 @@
 """
 task 5.3
-Create class login
+Create class login. Delete input login
 """
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import TimeoutException
@@ -47,4 +47,12 @@ class Login_page():
                     EC.element_to_be_clickable((By.XPATH,'//a[@id="logout_sidebar_link"]')))).click()
 
             else:
-                self.driver.refresh()
+                login_clear = WebDriverWait(self.driver, 1).until(
+                        EC.element_to_be_clickable((By.XPATH, '//input[@data-test="username"]')))
+                login_clear.clear()
+                sleep(1)
+                password_clear = WebDriverWait(self.driver, 5).until(
+                    EC.element_to_be_clickable((By.XPATH,  '//input[@id="password"]')))
+                password_clear.clear()
+                sleep(1)
+                
