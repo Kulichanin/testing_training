@@ -3,4 +3,8 @@ chapset_4/driver
 chapset_4/screen
 chapset_5/__pycache__
 chapset_6/__pycache__/*
+chapset_7/__pycache__/*
+chapset_7/base/__pycache__/*
+chapset_7/test/__pycache__/*
+chapset_7/pages/__pycache__/*
 geckodriver.log
