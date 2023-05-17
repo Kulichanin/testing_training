@@ -5,46 +5,32 @@ from selenium.webdriver.support import expected_conditions as EC
 from base.base_class import Base
 
 
-class Login_page(Base):
+class Main_page(Base):
 
-    def __init__(self, driver) -> None:
+    def __init__(self, driver, num_product) -> None:
         super().__init__(driver)
         self.driver = driver
-        
-        self.url = 'https://www.saucedemo.com/'
-        self.user_name = '//input[@data-test="username"]'
-        self.password = '//input[@id="password"]'
-        self.login_button = '//input[@id="login-button"]'
-        self.main_word = '//span[@class="title"]'
+        self.num_product = num_product
+        self.product = '//*[@id="inventory_container"]/div/div[{self.num_product}]/div[2]/div/a'
+        self.cart = '//div[@id="shopping_cart_container"]'
 
 
-    def get_user_name(self):
+    def get_product(self):
         return WebDriverWait(self.driver, 3).until(
-                EC.element_to_be_clickable((By.XPATH, self.user_name)))
+                EC.element_to_be_clickable((By.XPATH, self.product)))
 
-    def get_password(self):
+    def get_cart(self):
         return WebDriverWait(self.driver, 3).until(
-                EC.element_to_be_clickable((By.XPATH,  self.password)))
+                EC.element_to_be_clickable((By.XPATH,  self.cart)))
 
-    def get_login_button(self):
-        return WebDriverWait(self.driver, 3).until(
-                EC.element_to_be_clickable((By.XPATH, self.login_button)))
 
-    def get_main_word(self):
-        return WebDriverWait(self.driver, 3).until(
-                EC.element_to_be_clickable((By.XPATH, self.main_word)))
+    def click_select_product(self):
+        self.get_product.click()
+        print('Click product')
 
-    def input_username(self, username):
-        self.get_user_name().send_keys(username)
-        print('Input username')
-
-    def input_password(self, password):
-        self.get_password().send_keys(password)
-        print('Input password')
-
-    def click_login_button(self):
-        self.get_login_button().click()
-        print('Click login button')
+    def click_cart(self):
+        self.get_cart.click()
+        print('Click cart')
 
 
 
@@ -52,12 +38,19 @@ class Login_page(Base):
         self.driver.get(self.url)
         self.get_current_page()
         self.input_username('standard_user')
-        self.input_password('secret_sauces')
+        self.input_password('secret_sauce')
         self.click_login_button()
 
         # Проверка доступа к странице с продуктами. Ожидание элемента Product 10 секунд.
         # В случае неуспешной авторизации в работу вступает обработчик ошибок.
         try:
+            """
+            check_string = WebDriverWait(self.driver, 10).until(
+                    EC.element_to_be_clickable((By.XPATH,  '//span[@class="title"]')))
+            assert check_string.text == 'Products'
+            print(f'User authorization succesfull!')
+            return check_string.text
+            """
             check_string = self.assert_word(self.get_main_word(), 'Products')
             return check_string
         except TimeoutException:
