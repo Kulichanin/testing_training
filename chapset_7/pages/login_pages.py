@@ -52,7 +52,7 @@ class Login_page(Base):
         self.driver.get(self.url)
         self.get_current_page()
         self.input_username('standard_user')
-        self.input_password('secret_sauces')
+        self.input_password('secret_sauce')
         self.click_login_button()
 
         # Проверка доступа к странице с продуктами. Ожидание элемента Product 10 секунд.

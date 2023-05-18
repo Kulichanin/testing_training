@@ -6,6 +6,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.service import Service as ChromeService
 from webdriver_manager.chrome import ChromeDriverManager
 from pages.login_pages import Login_page
+from pages.main_pages import Main_page
 
 def test_select_product(number:int = 3):
     # Create driver from webdriver_manager.chrome 
@@ -15,14 +16,17 @@ def test_select_product(number:int = 3):
     login = Login_page(driver)
     login.authorization()
     
+    mp = Main_page(driver, number)
+    product_name = mp.select_product()
+
     # Adding the selected product to the cart
-    product_name = (WebDriverWait(driver, 30).until(EC.element_to_be_clickable((By.XPATH,
-                                       f'//*[@id="inventory_container"]/div/div[{number}]/div[2]/div/a')))).text
+    #product_name = (WebDriverWait(driver, 30).until(EC.element_to_be_clickable((By.XPATH,
+    #                                   f'//*[@id="inventory_container"]/div/div[{number}]/div[2]/div/a')))).text
     product_price = (WebDriverWait(driver, 30).until(EC.element_to_be_clickable((By.XPATH,
                                         f'//*[@id="inventory_container"]/div/div[{number}]/div[2]/div[2]/div')))).text
     print(f'Вы выбрали товар: {product_name}. Со стоимостью: {product_price}')
-    (WebDriverWait(driver, 30).until(EC.element_to_be_clickable((By.XPATH,
-                        f'//*[@id="inventory_container"]/div/div[{number}]/div[2]/div[2]/button')))).click()
+    #(WebDriverWait(driver, 30).until(EC.element_to_be_clickable((By.XPATH,
+    #                    f'//*[@id="inventory_container"]/div/div[{number}]/div[2]/div[2]/button')))).click()
     print('Товар успешно добавлен в корзину!')
     sleep(1)
     
