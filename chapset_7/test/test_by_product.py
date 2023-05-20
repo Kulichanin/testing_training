@@ -8,6 +8,7 @@ from webdriver_manager.chrome import ChromeDriverManager
 from pages.login_pages import Login_page
 from pages.main_pages import Main_page
 from pages.cart_page import Cart_page
+from pages.client_inf_product import Client_information_pages
 
 def test_select_product(number:int = 3):
     # Create driver from webdriver_manager.chrome 
@@ -26,29 +27,12 @@ def test_select_product(number:int = 3):
 
     cp = Cart_page(driver)
     cp.product_conformation()
-    sleep(3)
-    """ 
-    # Save info product in your cart
-    product_name_in_cart = (WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.XPATH, '//*[@class="inventory_item_name"]')))).text
-    product_price_in_cart = (WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.XPATH, '//*[@class="inventory_item_price"]')))).text
-
-    print(f'Информация о продукте в корзине: '
-          f'Имя товара: {product_name_in_cart}. '
-          f'Стоимость: {product_price_in_cart}.')
     sleep(1)
     
+    cli = Client_information_pages(driver)
+    cli.input_information()
+    sleep(1)
 
-    # Go to the checkout user information
-    (WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.XPATH, '//*[@id="checkout"]')))).click()
-    """                                                            
-    # Input information about user
-    (WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.XPATH, '//*[@id="first-name"]')))).send_keys('Ivan')
-    (WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.XPATH, '//*[@id="last-name"]')))).send_keys('Belekov')
-    (WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.XPATH, '//*[@id="postal-code"]')))).send_keys('123456')
-    
-    # Go to the checkout:overwiew
-    (WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.XPATH, '//*[@id="continue"]')))).click()
-    
     # Getting data about the name and cost of the goods
     product_name_in_overwiew = (WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.XPATH, 
                                                    '//*[@class="inventory_item_name"]')))).text
