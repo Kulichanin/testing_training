@@ -7,6 +7,7 @@ from pages.main_pages import Main_page
 from pages.cart_page import Cart_page
 from pages.client_inf_product import Client_information_pages
 from pages.payment_page import Payment_page
+from pages.finish_page import Finish_page
 
 def test_select_product(number:int = 3):
     # Create driver from webdriver_manager.chrome 
@@ -46,6 +47,8 @@ def test_select_product(number:int = 3):
     print(f'Поздравялем! Вы успешно приобрели товар: ' 
           f'Имя товара: {product_name_in_overwiew}. ' 
           f'Стоимость: {product_price_in_overwiew}.')
+    fin = Finish_page(driver)
+    fin.finish()
     sleep(1)
 
 
