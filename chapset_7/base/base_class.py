@@ -16,6 +16,12 @@ class Base():
          assert value_word == result
          return value_word
 
+    def assert_url(self, result:str):
+        get_url = self.driver.current_url
+        assert get_url == result
+        print('Good value url')
+
+
     def get_screenshot(self) -> str:
         """
         Create screenshot
