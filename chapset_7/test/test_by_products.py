@@ -11,8 +11,8 @@ from pages.client_inf_product import Client_information_pages
 from pages.payment_page import Payment_page
 from pages.finish_page import Finish_page
 
-@pytest.mark.run(order=3)
-def test_select_product_3(number:int = 3):
+#@pytest.mark.order(3)
+def test_select_product_3(set_up, number:int = 3):
     # Create driver from webdriver_manager.chrome 
     driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()))
 
@@ -22,6 +22,7 @@ def test_select_product_3(number:int = 3):
     
     mp = Main_page(driver, number)
     product_name, product_price = mp.select_product()
+    print('Start test 3')
     
     print(f'Вы выбрали товар: {product_name}. Со стоимостью: {product_price}')
     print('Товар успешно добавлен в корзину!')
@@ -55,8 +56,8 @@ def test_select_product_3(number:int = 3):
     sleep(1)
     print('Finish test 3')
 
-@pytest.mark.run(order=1)
-def test_select_product_1(number:int = 1):
+#@pytest.mark.order(1)
+def test_select_product_1(set_up, number:int = 1):
     # Create driver from webdriver_manager.chrome 
     driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()))
 
@@ -66,6 +67,7 @@ def test_select_product_1(number:int = 1):
     
     mp = Main_page(driver, number)
     product_name, product_price = mp.select_product()
+    print('Start test 1')
     
     print(f'Вы выбрали товар: {product_name}. Со стоимостью: {product_price}')
     print('Товар успешно добавлен в корзину!')
@@ -99,7 +101,7 @@ def test_select_product_1(number:int = 1):
     sleep(1)
     print('Finish test 1')
 
-@pytest.mark.run(order=2)
+#@pytest.mark.order(2)
 def test_select_product_2(number:int = 2):
     # Create driver from webdriver_manager.chrome 
     driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()))
@@ -110,6 +112,7 @@ def test_select_product_2(number:int = 2):
     
     mp = Main_page(driver, number)
     product_name, product_price = mp.select_product()
+    print('Start test 2')
     
     print(f'Вы выбрали товар: {product_name}. Со стоимостью: {product_price}')
     print('Товар успешно добавлен в корзину!')
