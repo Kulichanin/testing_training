@@ -11,10 +11,11 @@ class Login_page(Base):
         super().__init__(driver)
         self.driver = driver
         
-        self.url = 'https://www.saucedemo.com/'
-        self.user_name = '//input[@data-test="username"]'
-        self.password = '//input[@id="password"]'
-        self.login_button = '//input[@id="login-button"]'
+        self.url = 'https://www.citilink.ru/'
+        self.user_name = '//input[@name="login"]'
+        self.password = '//input[@name="pass"]'
+        self.login_button = '//div[@data-meta-name="UserButtonContainer"]'
+        self.login_button_enter = '//button[@class="e4uhfkv0 css-1yh1imp e4mggex0"]'
         self.main_word = '//span[@class="title"]'
 
 
@@ -29,6 +30,10 @@ class Login_page(Base):
     def get_login_button(self):
         return WebDriverWait(self.driver, 3).until(
                 EC.element_to_be_clickable((By.XPATH, self.login_button)))
+    
+    def get_login_button_enter(self):
+        return WebDriverWait(self.driver, 3).until(
+                EC.element_to_be_clickable((By.XPATH, self.login_button_enter)))
 
     def get_main_word(self):
         return WebDriverWait(self.driver, 3).until(
@@ -46,37 +51,16 @@ class Login_page(Base):
         self.get_login_button().click()
         print('Click login button')
 
+    def click_login_button_enter(self):
+        self.get_login_button_enter().click()
+        print('Click login button enter')
+
 
 
     def authorization(self) -> None:
         self.driver.get(self.url)
         self.get_current_page()
-        self.input_username('standard_user')
-        self.input_password('secret_sauce')
         self.click_login_button()
-
-        # Проверка доступа к странице с продуктами. Ожидание элемента Product 10 секунд.
-        # В случае неуспешной авторизации в работу вступает обработчик ошибок.
-        try:
-            check_string = self.assert_word(self.get_main_word(), 'Products')
-            return check_string
-        except TimeoutException:
-            # Поиcк ошибки и ее вывод к консоль
-            check_string_error = WebDriverWait(self.driver, 5).until(EC.element_to_be_clickable((By.XPATH,  '//h3[@data-test="error"]')))
-            print(f'User authorization failed! {check_string_error.text}')
-     
-    def authorization_list(self, user_login_list:list[str], user_pass:str) -> None:
-        for i in user_login_list:
-            result = self.authorization()
-            if result:
-                #Если авторизация нормальная, то выходим с помощью log out
-                (WebDriverWait(self.driver, 3).until(
-                    EC.element_to_be_clickable((By.XPATH,'//button[@id="react-burger-menu-btn"]')))).click()
-
-                (WebDriverWait(self.driver, 3).until(
-                    EC.element_to_be_clickable((By.XPATH,'//a[@id="logout_sidebar_link"]')))).click()
-
-            else:
-                # Если с авторизацией проблемы, то перезагружаем страницу.
-                # Таким образом логин и пароль очищаются.
-                self.driver.refresh()
+        self.input_username('mr.gn0m@yandex.ru')
+        self.input_password('1235789460')
+        self.click_login_button_enter()
