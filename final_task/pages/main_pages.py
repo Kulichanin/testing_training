@@ -5,6 +5,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from base.base_class import Base
 
 
+#! TODO Описать логику выбора товара на этой странице 
 class Main_page(Base):
 
     def __init__(self, driver, num_product=None) -> None:

@@ -1,5 +1,4 @@
 from selenium.webdriver.common.by import By
-from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from base.base_class import Base
@@ -60,7 +59,8 @@ class Login_page(Base):
     def authorization(self) -> None:
         self.driver.get(self.url)
         self.get_current_page()
+        self.driver.maximize_window()
         self.click_login_button()
         self.input_username('mr.gn0m@yandex.ru')
-        self.input_password('1235789460')
+        self.input_password('1235789460578901')
         self.click_login_button_enter()
