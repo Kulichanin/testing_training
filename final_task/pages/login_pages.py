@@ -62,5 +62,5 @@ class Login_page(Base):
         self.driver.maximize_window()
         self.click_login_button()
         self.input_username('mr.gn0m@yandex.ru')
-        self.input_password('1235789460578901')
+        self.input_password('1')
         self.click_login_button_enter()
