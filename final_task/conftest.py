@@ -1,11 +1,13 @@
 import pytest
 
 @pytest.fixture()
-def set_up():
+def set_up(monkeypatch):
     """
     Выполняется действие в начале каждой функции и завершается в конце каждой функции.
     """
     print('START TEST !')
+    inputs = iter(['mr.gn0m@yandex.ru', '1235789460578901', 'nivona'])
+    monkeypatch.setattr('builtins.input', lambda _: next(inputs))
     yield
     print('FINAL TEST !')
 

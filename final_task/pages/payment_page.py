@@ -10,9 +10,10 @@ class Payment_page(Base):
     def __init__(self, driver) -> None:
         super().__init__(driver)
         self.driver = driver
+        self._check_box = '/html/body/div[5]/div/div/div/div/div[2]/div/div/div/div/div/div/div/div[3]/button'
         self.product_name_in_overwiew = '//*[@class="inventory_item_name"]'
         self.product_price_in_overwiew = '//*[@class="inventory_item_price"]'
-        self.product_price_total = '//*[@class="summary_subtotal_label"]'
+        self.product_price_total = '//*[@class="summary_subtotal_label"]'sd
         self.finish_button = '//*[@id="finish"]'
 
 

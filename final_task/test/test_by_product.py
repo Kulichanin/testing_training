@@ -6,23 +6,26 @@ from webdriver_manager.chrome import ChromeDriverManager
 from pages.login_pages import Login_page
 from pages.main_pages import Main_page
 from pages.cart_page import Cart_page
-from pages.client_inf_product import Client_information_pages
 from pages.payment_page import Payment_page
 
-def test_select_product():
+def test_select_product(set_up):
+    # Input login and username
+    username = input('input username: ')
+    password = input('input password: ')
+    name_product = input('input product: ')
     # Create driver from webdriver_manager.chrome
     driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()))
     # Authorication in site
     login = Login_page(driver)
     login.authorization(username, password)
-    print('YES!')
-    sleep(3)
-
-
-def main():
-    test_select_product()
-
+    select_product = Main_page(driver)
+    name_pr, price_pr = select_product.select_product(name_product)
+    print(name_pr, price_pr)
+    sleep(1)
+    cart_product = Cart_page(driver)
+    name_pr_cart, price_pr_cart = cart_product.product_cart()
+    print(name_pr_cart, price_pr_cart)
+    sleep(1)
 if __name__ == '__main__':
-    username = input('input username: ')
-    password = input('input password: ')
-    main()
+    test_select_product('set_up')
+
