@@ -10,43 +10,44 @@ class Payment_page(Base):
     def __init__(self, driver) -> None:
         super().__init__(driver)
         self.driver = driver
-        self._check_box = '/html/body/div[5]/div/div/div/div/div[2]/div/div/div/div/div/div/div/div[3]/button'
-        self.product_name_in_overwiew = '//*[@class="inventory_item_name"]'
-        self.product_price_in_overwiew = '//*[@class="inventory_item_price"]'
-        self.product_price_total = '//*[@class="summary_subtotal_label"]'sd
-        self.finish_button = '//*[@id="finish"]'
+        self._check_box = '//button[@class="e4uhfkv0 css-10je9jt e4mggex0"]'
+        self._product_name_in_overwiew = '//*[@id="__next"]/div/div[2]/div/div/div[1]/div/div[2]/div/div[1]/div/div/div/div/div[3]/div/div/div/div/div/div/span[1]'
+        self._product_price_in_overwiew = '//*[@id="__next"]/div/div[2]/div/div/div[1]/div/div[2]/div/div[2]/div/div[2]/span/span/span[1]'
+        self._clear_button = '//button[@class="e4uhfkv0 css-tugfqc e4mggex0"]'
 
-
+    def get_check_box(self):
+        return WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable((By.XPATH, self._check_box)))
+   
     def get_product_name_in_overwiew(self):
-        return WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable((By.XPATH, self.product_name_in_overwiew)))
+        return WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable((By.XPATH, self._product_name_in_overwiew)))
 
     def get_product_price_in_overwiew(self):
-        return WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable((By.XPATH,  self.product_price_in_overwiew)))
+        return WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable((By.XPATH,  self._product_price_in_overwiew)))
 
-    def get_product_price_total(self):
-        return WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable((By.XPATH, self.product_price_total)))
-
-    def get_finish_button(self):
-        return WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable((By.XPATH, self.finish_button)))
+    def get_clear_button(self):
+        return WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable((By.XPATH, self._clear_button)))
     
-    def text_product_name(self):
+    def text_product_name_in_overwiew(self):
         return self.get_product_name_in_overwiew().text
     
     def text_product_price_in_overwiew(self):
         return self.get_product_price_in_overwiew().text
+    
+    def click_check_box(self):
+        self.get_check_box().click()
+        print('clear massage')
 
-    def text_product_price_total(self):
-        product_price_total = self.get_product_price_total().text
-        return product_price_total.split("$")
-
-    def click_finish_button(self):
-        self.get_finish_button().click()
-        print('Click product')
+    def click_clear_button(self):
+        self.get_clear_button().click()
+        print('clear cart')
 
     def payment(self):
         self.get_current_page()
-        text_name = self.text_product_name()
+        if self.get_check_box():
+            self.click_check_box()
+            print('cleare msg!')
+        name_in_over = self.text_product_name_in_overwiew()
         pr_in_over = self.text_product_price_in_overwiew()
-        pr_price_total = self.text_product_price_total()
-        self.click_finish_button()
-        return text_name, pr_in_over, pr_price_total
+        self.driver.execute_script("window.history.go(-1)")
+        self.click_clear_button()
+        return name_in_over, pr_in_over

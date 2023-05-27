@@ -18,8 +18,9 @@ class Main_page(Base):
         self._filter_price = '//*[@id="__next"]/div/main/section/div[2]/div/div/section/div[2]/div[1]/div[2]/div[2]/div/button[2]/span' #double click
         self._interpreter_name_product = '//*[@id="__next"]/div/main/section/div[2]/div/div/section/div[2]/div[2]/div[1]/div/div[3]/div[1]/a'
         self._interpreter_price_product = '//*[@id="__next"]/div/main/section/div[2]/div/div/section/div[2]/div[2]/div[1]/div/div[7]/div[1]/div[2]/span/span/span[1]' 
-        self._add_to_cart = '//*[@id="__next"]/div/main/section/div[2]/div/div/section/div[2]/div[2]/div[1]/div/div[7]/div[3]/button'
-        self._cart = '//*[@id="__next"]/div/main/section/div[2]/div/div/section/div[2]/div[2]/div[1]/div/div[7]/div[3]/button'
+        #self._add_to_cart = '//*[@id="__next"]/div/main/section/div[2]/div/div/section/div[2]/div[2]/div[1]/div/div[7]/div[3]/button'
+        self._add_to_cart = '//*[@id="__next"]/div/main/section/div[2]/div/div/section/div[2]/div[2]/div[1]/div/div[7]/div[2]/button'
+        self._cart = '//button[@class="e4uhfkv0 css-10je9jt e4mggex0"]'
 
 
     def get_product_catalog(self):
@@ -95,7 +96,7 @@ class Main_page(Base):
         print('Click add to cart')
     
     def click_go_to_cart(self):
-        self.get_cart.click()
+        self.get_cart().click()
         print('Go to cart!')
     
 
@@ -110,14 +111,15 @@ class Main_page(Base):
         assert name_filter.lower() == name_product, 'Название фирмы не совпадает!'
         # Пока делал тест нашел баг! Если применять двойной клик на это поле несколько раз, то оно не реагирует после первого нажатия
         self.click_filter_price()
-        sleep(3) 
+        sleep(1) 
         self.click_filter_price()
+        sleep(1)
         name_pr = self.find_interpreter_name_product()
         price_pr = self.find_interpreter_price_product()
         self.get_screenshot()
         sleep(1)
         self.click_add_to_cart()
         sleep(1)
-        #self.click_go_to_cart()
+        self.click_go_to_cart()
         return name_pr, price_pr
 
