@@ -8,8 +8,10 @@ from pages.cart_page import Cart_page
 from pages.client_inf_product import Client_information_pages
 from pages.payment_page import Payment_page
 from pages.finish_page import Finish_page
+from utiliyies.logger import Logger
 
 def test_select_product(number:int = 3):
+    Logger.add_start_step(method='test_select_product')
     # Create driver from webdriver_manager.chrome 
     driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()))
 
@@ -39,18 +41,20 @@ def test_select_product(number:int = 3):
 
     # Checking the name of the cost of goods from all stages
     assert product_name == product_name_in_overwiew
-    print('Тест имени товара успешный!')
+    #print('Тест имени товара успешный!')
     assert float(product_price[1:])  == float(product_price_in_overwiew[1:])  == float(product_price_total[1])
-    print('Тест стоимости товара успешный!')
+    #print('Тест стоимости товара успешный!')
 
     # Final page
+    """ 
     print(f'Поздравялем! Вы успешно приобрели товар: ' 
           f'Имя товара: {product_name_in_overwiew}. ' 
           f'Стоимость: {product_price_in_overwiew}.')
+    """
     fin = Finish_page(driver)
     fin.finish()
     sleep(1)
-
+    Logger.add_end_step(url=driver.current_url, method='test_by_product')
 
 def main():
     num = input('Введите номер товара: ')

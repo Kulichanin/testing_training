@@ -3,6 +3,7 @@ from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from base.base_class import Base
+from utiliyies.logger import Logger
 
 
 class Main_page(Base):
@@ -67,9 +68,12 @@ class Main_page(Base):
         self.assert_url('https://saucelabs.com/')
 
     def select_product(self):
+
+        Logger.add_start_step(method='select_product')
         self.get_current_page()
         self.click_select_product()
         product_name = self.text_product_name()
         product_price = self.price_product()
         self.click_cart()
+        Logger.add_end_step(url=self.driver.current_url, method='select_product')
         return product_name, product_price
